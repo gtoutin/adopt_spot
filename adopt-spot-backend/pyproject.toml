@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "adopt-spot-backend"
+version = "0.1.0"
+description = ""
+authors = ["Gabrielle Toutin <gctoutin@gmail.com>"]
+readme = "README.md"
+packages = [{include = "adopt_spot_backend"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
