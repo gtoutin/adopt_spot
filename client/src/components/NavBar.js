@@ -4,18 +4,28 @@ import styled from "styled-components";
 const NavBar = () => {
     return ( 
     <Bar>
-        <NavLink to={"/"}>Home</NavLink>
-        <NavLink to={"/contact-form"}>Contact Us</NavLink>
-        <NavLink to={"/pets"}>Search Pets</NavLink>
+        <Navigation to={"/"}>Home</Navigation>
+        <Navigation to={"/about"}>About</Navigation>
+        <Navigation to={"/contact-form"}>Contact Us</Navigation>
+        <Navigation to={"/pets"}>Search Pets</Navigation>
     </Bar> 
     );
 }
 
 const Bar = styled.div`
+    display:  flex;
+    justify-content: center;
+    position: absolute;
+    z-index: 100;
     width: 100vw;
-    height: 5%;
-    min-height: 100px;
-  	border: 1px solid red;
+    max-height: 100px;
+    min-height: 5%;
 `
 
+const Navigation = styled(NavLink)`
+    padding: 2% 3%;
+    color: white;
+    text-decoration: none;
+    font-family: 'Inter', sans-serif;
+`
 export default NavBar;
