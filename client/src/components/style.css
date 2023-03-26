@@ -1,0 +1,12 @@
+html, body{
+    margin: 0; 
+    box-sizing: border-box;
+}
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+#root {
+    max-width: 100%;
+    max-height: 100%;
+}

@@ -29,7 +29,7 @@ const Home = () => {
                   <SubtitleMobile>Help animal homelessness and adopt today.</SubtitleMobile>
                 </div>
                 <div>
-                  <ButtonMobile to={"/pets"}>Search for your forever pet</ButtonMobile>
+                  <ButtonMobile to={"/pets"}>Search pets</ButtonMobile>
               </div>
               </DescMobile>
             </Contents>
@@ -88,7 +88,6 @@ const Flex = styled.div`
   height: 100%;
   display: flex;
 `;
-
 
 // MONITORS
 const Left = styled.div`
@@ -161,7 +160,7 @@ const VectorTwoMonitor = styled.img`
 const VectorThreeMonitor = styled.img`
   position: absolute;
   z-index: -1;
-  height: auto;
+  height: 80%;
   width: 50%;
   right: 0px;
   bottom: 0px;
@@ -175,7 +174,6 @@ const IllustrationMonitor = styled.img`
   width: 50rem;
   align-self: flex-end;
 `;
-
 
 //MOBILES
 // VECTOR BACKGROUND
