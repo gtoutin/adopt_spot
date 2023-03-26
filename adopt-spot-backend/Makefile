@@ -7,6 +7,7 @@ run-docker:
 	--mount type=bind,source=$(shell pwd),target=/app \
 	adopt_spot_backend
 
-# Used inside docker container
+# Use when no docker
 start-api:
-	python app.py
+	poetry install
+	poetry run python app.py
