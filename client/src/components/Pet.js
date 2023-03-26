@@ -2,13 +2,13 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-const Pet = ({ type, name, age, breed, image, contact }) => {
+const Pet = ({ type, name, age, breed, image, url }) => {
   const [button, setButton] = useState("hidden");
   const [opacity, setOpacity] = useState(1);
 
   return (
     <Card
-      to={contact.link}
+      to={url}
       target="_blank"
       onMouseEnter={() => {
         setButton("visible");
