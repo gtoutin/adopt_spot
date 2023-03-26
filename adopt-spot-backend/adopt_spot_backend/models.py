@@ -5,6 +5,19 @@ class schemas(Enum):
     GET_PETS = {
         ...
     }
-    GET_PET_ID = {
+    PET = {
         ...
     }
+
+class animals(Enum):
+    CAT = 'cat'
+    DOG = 'dog'
+    DEGU = 'degu'
+    HAMSTER = 'hamster'
+    HORSE = 'horse'
+    RABBIT = 'rabbit'
+    RAT = 'rat'
+    GUINEA_PIG = 'guinea-pig'
+    GERBIL = 'gerbil'
+    MOUSE = 'mouse'
+    CHINCHILLA = 'chinchilla'
