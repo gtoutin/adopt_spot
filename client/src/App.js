@@ -8,6 +8,8 @@ import Pets from "./components/Pets";
 import ContactForm from "./components/ContactForm";
 import RulesAndRegulations from "./components/RulesAndRegulations";
 
+import './components/style.css';
+
 const App = () => {
   return (
     <BrowserRouter>
@@ -23,5 +25,4 @@ const App = () => {
     </BrowserRouter>
   );
 }
-
 export default App;

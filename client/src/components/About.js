@@ -53,8 +53,8 @@ const About = () => {
 
 // CONTAINER STYLE
 const Background = styled.div`
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
 `;
 const Contents = styled.div`
   padding: 300px 0px;
@@ -131,13 +131,12 @@ const VectorTwo = styled.img`
   top: 15%;
   right: 0px;
   width: 50%;
-  height: auto;
+  height: 85%;
   overflow: hidden;
 `;
 const VectorThree = styled.img`
   position: absolute;
   z-index: -1;
-  height: auto;
   width: 30%;
   left: 0px;
   bottom: 0px;

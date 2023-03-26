@@ -145,7 +145,7 @@ const VectorTwo = styled.img`
   z-index: -1;
   top: 15%;
   width: 40%;
-  height: auto;
+  height: 85%;
   overflow: hidden;
 `;
 const Illustration = styled.img`

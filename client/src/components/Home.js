@@ -29,7 +29,7 @@ const Home = () => {
                   <SubtitleMobile>Help animal homelessness and adopt today.</SubtitleMobile>
                 </div>
                 <div>
-                  <ButtonMobile to={"/pets"}>Search for your forever pet</ButtonMobile>
+                  <ButtonMobile to={"/pets"}>Search pets</ButtonMobile>
               </div>
               </DescMobile>
             </Contents>
@@ -38,7 +38,6 @@ const Home = () => {
       </MediaQuery>
 
 
-      <MediaQuery minWidth={1920} maxWidth={2000}>
         <Flex>
         <Background>
           <div>
@@ -66,7 +65,6 @@ const Home = () => {
           </Contents>
         </Background>
         </Flex>
-      </MediaQuery>
     </div>
   );
 };
@@ -88,7 +86,6 @@ const Flex = styled.div`
   height: 100%;
   display: flex;
 `;
-
 
 // MONITORS
 const Left = styled.div`
@@ -161,7 +158,7 @@ const VectorTwoMonitor = styled.img`
 const VectorThreeMonitor = styled.img`
   position: absolute;
   z-index: -1;
-  height: auto;
+  height: 80%;
   width: 50%;
   right: 0px;
   bottom: 0px;
@@ -175,7 +172,6 @@ const IllustrationMonitor = styled.img`
   width: 50rem;
   align-self: flex-end;
 `;
-
 
 //MOBILES
 // VECTOR BACKGROUND
@@ -214,10 +210,10 @@ const LogoMobile = styled.h1`
 `;
 
 const DescMobile = styled.div`
-  height: 100%;
   width: 100%;
   color: var(--blue-mid);
   padding-top: 5rem;
+  border: 1px solid red;
 `;
 const TitleMobile = styled.h1`
   font-size: 2rem;
