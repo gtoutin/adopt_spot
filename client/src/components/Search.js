@@ -18,7 +18,7 @@ const Search = ({ pets, handleSelect }) => {
       setMatchedSuggestions(
         uniqueBreeds
           .filter((breed) => {
-            if (value.length > 2) {
+            if(value.length > 0) {
               if (breed.toUpperCase().includes(value.toUpperCase())) {
                 console.log(breed);
                 return breed;
@@ -54,10 +54,14 @@ const Search = ({ pets, handleSelect }) => {
     <Container>
       <Prompt>Search to find a forever pet</Prompt>
       <Fields>
-        <FilterInput type="text" placeholder="Species"/>
-        <SearchBar>
-          <SearchInput type="text" placeholder="Search for a breed" onChange={(e) => setValue(e.target.value)} />
-          {value.length > 2 && matchedSuggestions.length > 0 && (
+        <FilterInput type="text" placeholder="Species" />
+        <SearchBar onSubmit={(e) => e.preventDefault()}>
+          <SearchInput
+            type="text"
+            placeholder="Search for a breed"
+            onChange={(e) => setValue(e.target.value)}
+          />
+          {matchedSuggestions.length > 0 && (
             <DropDown>
               {matchedSuggestions.map((suggestion, index) => {
                 return (
@@ -83,12 +87,16 @@ const Search = ({ pets, handleSelect }) => {
             </DropDown>
           )}
         </SearchBar>
-        <Button 
-          type="reset" onClick={() => {
-          handleSelect("");
-          setValue("");
-          setSelectedSuggestionIndex(0);
-        }}>Reset</Button>
+        <Button
+          type="reset"
+          onClick={() => {
+            handleSelect("");
+            setValue("");
+            setSelectedSuggestionIndex(0);
+          }}
+        >
+          Reset
+        </Button>
       </Fields>
     </Container>
   );
@@ -138,14 +146,14 @@ const Prediction = styled.span`
 `;
 // BUTTON STYLE
 const Button = styled.button`
-  margin-left: 20px ;
+  margin-left: 20px;
   border-radius: 20px;
   padding: 10px 40px;
   color: white;
   background-color: var(--blue-mid);
   box-shadow: inset 1px 0px 10px grey;
   text-decoration: none;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-weight: 300;
   font-size: 1.5em;
 `;
