@@ -1,20 +1,24 @@
 import styled from "styled-components";
+import { useContext } from "react";
 
-import pets from "../mockdata";
 import vector from "./assets/pets/Vector.png";
+
+import { PetsContext } from "../contexts/PetsContext";
 
 import Search from "./Search";
 import Pet from "./Pet";
 
 const Pets = () => {
+  const { pets } = useContext(PetsContext);
+
   return (
     <Background>
       <Vector src={vector} />
       <Search />
       <Results>
-      {
-        pets.map(pet => (
-            <Pet type={pet.type} name={pet.name} age={pet.age} breed={pet.breed} image={pet.image} contact={pet.contact} />
+      {//TO DO: Add pagination and remove filter here:
+        pets.filter((e,i) => i < 50).map(pet => (
+            <Pet type={pet.type} name={pet.name} age={pet.age} breed={pet.breed} image={pet.pic} url={pet.url} />
         ))
       }
       </Results>
