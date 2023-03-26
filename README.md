@@ -16,14 +16,18 @@
 #### `/pet/{id}`
 ```
 {
-    "id": str,
-    "name": str,
-    "contact": {
-        "info": str,
-        "link": str
-    }
-    ...
-}
+    "age":"10 and 1 month(s)",
+    "breed":null,
+    "color":"Tan",
+    "contact":"",
+    "description":"",
+    "location":"West Midlands: Bromsgrove rehoming centre",
+    "name":"Duke",
+    "pic":"https://www.bluecross.org.uk//sites/default/files/d8/722322.jpg",
+    "sex":"Male",
+    "species":"dog",
+    "url":"https://www.bluecross.org.uk/pet/duke-1138958"
+   },
 ```
 - name
 - contact
