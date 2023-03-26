@@ -12,4 +12,4 @@ RUN poetry install --no-dev
 
 # ENTRYPOINT ["python"]
 # CMD ["make", "start-api"]
-CMD ['poetry', 'run', 'python', 'app.py']
+CMD ["poetry", "run", "python", "app.py"]
