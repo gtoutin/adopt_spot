@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-const Pet = ({ type, name, age, breed, image, url }) => {
+const Pet = ({ species, name, age, breed, image, url }) => {
   const [button, setButton] = useState("hidden");
   const [opacity, setOpacity] = useState(1);
 
@@ -29,7 +29,7 @@ const Pet = ({ type, name, age, breed, image, url }) => {
             <p>Age: {age}</p>
             <p>Breed: {breed}</p>
           </div>
-          <p>Animal Type: {type}</p>
+          <p>Animal Type: {species}</p>
         </Desc>
         <p>About the animal?</p>
         <p>Some useful information about the animal here.</p>
