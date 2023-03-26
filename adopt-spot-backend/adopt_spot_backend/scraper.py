@@ -1,10 +1,18 @@
 
 # url of site
 # info you need to loop thru to get all the data
+import asyncio
+import json
+
 import requests 
 from bs4 import BeautifulSoup
+import aiohttp
 
 from .models import schemas, animals
+
+
+
+
 
 ## generic scraper class that can be extended and specialized per website
 class Scraper:
@@ -35,28 +43,40 @@ class BlueCrossScraper(Scraper):
             animals.CHINCHILLA
         ]
 
-    def get_pets(self) -> schemas.GET_PETS:
+    async def _handle_data_fetching(self, url, spec_name):
+        """Returns response json and ok bool"""
+        print(f"fetching {spec_name}")
+
+        async with aiohttp.ClientSession() as session:
+            async with session.get(url) as pets_response:
+                # pets_json = await pets_response.json()
+
+                # pets_response = await requests.get(url).json()
+                print(f"fetched {spec_name}")
+                if pets_response.ok:
+                    pets_json = await pets_response.json()
+                    return self._extract_pets_data(pets_json, spec_name)
+                else:
+                    print(f"{url} didn't work")
+                    return []
+
+    async def get_pets(self) -> schemas.GET_PETS:
+        tasks = []
         data = []
         for spec_name in [spec.value for spec in self.species]:
-            # get html
-            pets_response = requests.get(f"{self.url}/pet/listing/{spec_name}")
-            if pets_response.ok:
-                pets_json = pets_response.json()
-                # print(pets_json)
-
-                data.extend(self._extract_data(pets_json, spec_name))
-            else:
-                print(f"{spec_name} didn't work")
-            # pass in and get the data we want
-            # TODO: scrape and grab data
+            tasks.append(self._handle_data_fetching(f"{self.url}/pet/listing/{spec_name}", spec_name))
+        results = await asyncio.gather(*tasks)
+        for page_result in results:
+            data.extend(page_result)
         return data
 
-    def _extract_data(self, json, species) -> list[schemas.PET]:
+
+    def _extract_pets_data(self, json, species) -> list[schemas.PET]:
         data = []
         for pet in json.get('results'):
             pet_output = {
                 "name": pet.get('title'),
-                "pic": f"{self.url}/{pet.get('field_pet_image_1', '')}",
+                "pic": f"{self.url}{pet.get('field_pet_image_1', '')}",
                 "age": f"{pet.get('field_age_year', '0')} and {pet.get('field_age_month', '0')} month(s)",
                 "breed": pet.get("breed"),
                 "species": species,
