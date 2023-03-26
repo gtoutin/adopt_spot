@@ -38,7 +38,6 @@ const Home = () => {
       </MediaQuery>
 
 
-      <MediaQuery minWidth={1920} maxWidth={2000}>
         <Flex>
         <Background>
           <div>
@@ -66,7 +65,6 @@ const Home = () => {
           </Contents>
         </Background>
         </Flex>
-      </MediaQuery>
     </div>
   );
 };
@@ -212,10 +210,10 @@ const LogoMobile = styled.h1`
 `;
 
 const DescMobile = styled.div`
-  height: 100%;
   width: 100%;
   color: var(--blue-mid);
   padding-top: 5rem;
+  border: 1px solid red;
 `;
 const TitleMobile = styled.h1`
   font-size: 2rem;
