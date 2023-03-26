@@ -76,7 +76,7 @@ class BlueCrossScraper(Scraper):
                 "name": pet.get('title'),
                 "pic": f"{self.url}{pet.get('field_pet_image_1', '')}",
                 "age": f"{pet.get('field_age_year', '0')} and {pet.get('field_age_month', '0')} month(s)",
-                "breed": pet.get("breed", ''),
+                "breed": pet.get("field_breed", ''),
                 "species": species,
                 "color": pet.get('field_pet_colour', ''),
                 "sex": pet.get('field_pet_sex', ''),
