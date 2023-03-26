@@ -58,3 +58,17 @@ See the README in adopt-spot-backend for more info.
     "url":"https://www.bluecross.org.uk/pet/duke-1138958",
 },
 ``` -->
+
+
+### Run FE Server
+<!-- 
+    yarn install
+    yarn start
+    [05:32]
+    If you need to install yarn :
+    npm install --global yarn 
+-->
+
+### Using react-responsive 
+- Download here or use yarn install
+- `https://www.npmjs.com/package/react-responsive`
