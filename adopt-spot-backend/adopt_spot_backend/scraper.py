@@ -43,35 +43,47 @@ class BlueCrossScraper(Scraper):
             animals.CHINCHILLA
         ]
 
-    async def _handle_data_fetching(self, url, spec_name):
-        """Returns response json and ok bool"""
-        print(f"fetching {spec_name}")
+    # async def _handle_data_fetching(self, url, spec_name):
+    #     """Returns response json and ok bool"""
+    #     print(f"fetching {spec_name}")
 
-        async with aiohttp.ClientSession() as session:
-            async with session.get(url) as pets_response:
-                # pets_json = await pets_response.json()
+    #     async with aiohttp.ClientSession() as session:
+    #         async with session.get(url) as pets_response:
+    #             # pets_json = await pets_response.json()
 
-                # pets_response = await requests.get(url).json()
-                print(f"fetched {spec_name}")
-                if pets_response.ok:
-                    pets_json = await pets_response.json()
-                    return self._extract_pets_data(pets_json, spec_name)
-                else:
-                    print(f"{url} didn't work")
-                    return []
+    #             # pets_response = await requests.get(url).json()
+    #             print(f"fetched {spec_name}")
+    #             if pets_response.ok:
+    #                 pets_json = await pets_response.json()
+    #                 return self._extract_pets_data(pets_json, spec_name)
+    #             else:
+    #                 print(f"{url} didn't work")
+    #                 return []
+
+    async def fetch(self, session, url):
+        print(f"fetching {url}")
+        async with session.get(url) as response:
+            if response.ok:
+                output = await response.json()
+                print(f"fetched {url}")
+                return output
 
     async def get_pets(self) -> schemas.GET_PETS:
-        tasks = []
         data = []
-        for spec_name in [spec.value for spec in self.species]:
-            tasks.append(self._handle_data_fetching(f"{self.url}/pet/listing/{spec_name}", spec_name))
-        results = await asyncio.gather(*tasks)
-        for page_result in results:
-            data.extend(page_result)
+        tasks = []
+
+        async with aiohttp.ClientSession() as session:
+            for spec_name in [spec.value for spec in self.species]:
+                task = asyncio.create_task(self.fetch(session, f"{self.url}/pet/listing/{spec_name}"))
+                tasks.append(task)
+            results = await asyncio.gather(*tasks)
+            for spec_name, spec_data in zip([spec.value for spec in self.species], results):
+                data.extend(self._extract_data(spec_data, spec_name))
+                # data = 
         return data
 
 
-    def _extract_pets_data(self, json, species) -> list[schemas.PET]:
+    def _extract_data(self, json, species) -> list[schemas.PET]:
         data = []
         for pet in json.get('results'):
             pet_output = {
