@@ -1,12 +1,14 @@
+import asyncio
 
-# url of site
-# info you need to loop thru to get all the data
-import requests 
 from bs4 import BeautifulSoup
+import aiohttp
 
 from .models import schemas, animals
 
+
+
 ## generic scraper class that can be extended and specialized per website
+# not really used/needed. feel free to delete
 class Scraper:
     def __init__(self) -> None:
         self.species = []
@@ -22,7 +24,10 @@ class Scraper:
 class BlueCrossScraper(Scraper):
     def __init__(self) -> None:
         super().__init__()
+        # base url of website
         self.url = "https://www.bluecross.org.uk"
+        # the species covered by this scraper
+        # see where animals is defined for more info
         self.species = [
             animals.DOG,
             animals.CAT,
@@ -35,30 +40,43 @@ class BlueCrossScraper(Scraper):
             animals.CHINCHILLA
         ]
 
-    def get_pets(self) -> schemas.GET_PETS:
-        data = []
-        for spec_name in [spec.value for spec in self.species]:
-            # get html
-            pets_response = requests.get(f"{self.url}/pet/listing/{spec_name}")
-            if pets_response.ok:
-                pets_json = pets_response.json()
-                # print(pets_json)
+    async def fetch(self, session, url):
+        "asynchronously fetch stuff from a url"
+        print(f"fetching {url}")
+        async with session.get(url) as response:
+            if response.ok:
+                output = await response.json()
+                print(f"fetched {url}")
+                return output
 
-                data.extend(self._extract_data(pets_json, spec_name))
-            else:
-                print(f"{spec_name} didn't work")
-            # pass in and get the data we want
-            # TODO: scrape and grab data
+    async def get_pets(self) -> schemas.GET_PETS:
+        "asynchronously get the data returned from GET /pets"
+        data = []
+        tasks = []
+
+        async with aiohttp.ClientSession() as session:
+            # loop thru species
+            for spec_name in [spec.value for spec in self.species]:
+                # prepare to fetch asyncly
+                task = asyncio.create_task(self.fetch(session, f"{self.url}/pet/listing/{spec_name}"))
+                tasks.append(task)
+            # wait here for async fetches to finish
+            results = await asyncio.gather(*tasks)
+            for spec_name, spec_data in zip([spec.value for spec in self.species], results):
+                # collect results together
+                data.extend(self._extract_data(spec_data, spec_name))
         return data
 
+
     def _extract_data(self, json, species) -> list[schemas.PET]:
+        "format each page of results"
         data = []
         for pet in json.get('results'):
             pet_output = {
                 "name": pet.get('title'),
-                "pic": f"{self.url}/{pet.get('field_pet_image_1', '')}",
+                "pic": f"{self.url}{pet.get('field_pet_image_1', '')}",
                 "age": f"{pet.get('field_age_year', '0')} and {pet.get('field_age_month', '0')} month(s)",
-                "breed": pet.get("breed"),
+                "breed": pet.get("breed", ''),
                 "species": species,
                 "color": pet.get('field_pet_colour', ''),
                 "sex": pet.get('field_pet_sex', ''),
@@ -69,13 +87,6 @@ class BlueCrossScraper(Scraper):
                 "contact": "",
             }
             data.append(pet_output)
-            # still need description, id
-        
-
-        # soup = BeautifulSoup(json, "html.parser")
-        # pets are stored in a div w class "grid grid-cols-1 sm:grid-cols-3 gap-2"
-        # pets_div = soup.find('div', class_="grid grid-cols-1 sm:grid-cols-3 gap-2")
-        # for animal in there, grab its info
         return data
 
 
